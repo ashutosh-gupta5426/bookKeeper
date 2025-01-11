@@ -30,7 +30,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "$COLUMN_PUBLICATION_YEAR INTEGER, " +
                 "$COLUMN_PUBLISHED_BY TEXT, " +
                 "$COLUMN_GENRE TEXT, " +
-                "$COLUMN_IMAGE TEXT)")
+                "$COLUMN_IMAGE BLOB)")
         db.execSQL(createTable)
     }
 

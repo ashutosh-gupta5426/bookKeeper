@@ -1,5 +1,6 @@
 package com.example.bookkeeper
 
+
 data class Book(
     var id: Int = 0,
     var bookName: String = "",
@@ -8,5 +9,5 @@ data class Book(
     var publicationYear: Int = 0,
     var publishedBy: String = "",
     var genre: String = "",
-    var image: String = ""
+    var image: ByteArray ?= null
 )

@@ -11,7 +11,7 @@ class BookRepository(context: Context) {
     private val dbHelper = DatabaseHelper(context)
 
     // Create
-    fun insertBook(bookName: String, author: String, summary: String, publicationYear: Int, publishedBy: String, genre: String, image: String): Long {
+    fun insertBook(bookName: String, author: String, summary: String, publicationYear: Int, publishedBy: String, genre: String, image: ByteArray): Long {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
             put(DatabaseHelper.COLUMN_BOOK_NAME, bookName)
@@ -45,7 +45,7 @@ class BookRepository(context: Context) {
                     publicationYear = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_PUBLICATION_YEAR))
                     publishedBy = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PUBLISHED_BY))
                     genre = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_GENRE))
-                    image = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_IMAGE))
+                    image = cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.COLUMN_IMAGE))
                 }
                 bookList.add(book)
             } while (cursor.moveToNext())
@@ -56,7 +56,7 @@ class BookRepository(context: Context) {
     }
 
     // Update
-    fun updateBook(id: Int, bookName: String, author: String, summary: String, publicationYear: Int, publishedBy: String, genre: String, image: String): Int {
+    fun updateBook(id: Int, bookName: String, author: String, summary: String, publicationYear: Int, publishedBy: String, genre: String, image: ByteArray): Int {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
             put(DatabaseHelper.COLUMN_BOOK_NAME, bookName)

@@ -1,6 +1,5 @@
 package com.example.bookkeeper
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -16,11 +15,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintSet.Layout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import java.io.ByteArrayOutputStream
+
 
 class AddBookActivity : AppCompatActivity() {
     private lateinit var bookRepository: BookRepository
@@ -32,7 +32,7 @@ class AddBookActivity : AppCompatActivity() {
     private lateinit var genreEditText: EditText
     private lateinit var imageView: ImageView
     private lateinit var saveBookButton:  CardView
-    private var selectedImageUri: Uri? = null
+    private var selectedImageUri: ByteArray? = null
 
     private val PICK_IMAGE_REQUEST = 1
 
@@ -41,8 +41,19 @@ class AddBookActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
-                selectedImageUri = data?.data
-                imageView.setImageURI(selectedImageUri)
+                val uri = data?.data
+                imageView.setImageURI(uri)
+                val inputStream = contentResolver.openInputStream(uri!!)
+                val byteArrayOutputStream = ByteArrayOutputStream()
+
+                val buffer = ByteArray(1024)
+                var length: Int
+                while ((inputStream!!.read(buffer).also { length = it }) != -1) {
+                    byteArrayOutputStream.write(buffer, 0, length)
+                }
+
+                inputStream.close()
+                 selectedImageUri = byteArrayOutputStream.toByteArray()
             imageView.tag =1// Set the selected image to the ImageView
             }
         }
@@ -144,12 +155,14 @@ class AddBookActivity : AppCompatActivity() {
         val publicationYear = publicationYearEditText.text.toString().toIntOrNull() ?: 0
         val publishedBy = publishedByEditText.text.toString()
         val genre = genreEditText.text.toString()
-        val image = selectedImageUri.toString() // Assuming you set the image path as a tag
+        val image = selectedImageUri // Assuming you set the image path as a tag
 
         // Insert the book into the database
-      val response =  bookRepository.insertBook(bookName, author, summary, publicationYear, publishedBy, genre, image)
-        Toast.makeText(this, "Image is required$response", Toast.LENGTH_SHORT).show()
+      val response =  bookRepository.insertBook(bookName, author, summary, publicationYear, publishedBy, genre, image!!)
+    //    Toast.makeText(this, "Image is required$response", Toast.LENGTH_SHORT).show()
         // Optionally, show a message or navigate back
+        val resultIntent: Intent = Intent()
+        setResult(200,resultIntent)
         finish() // Close the activity after saving
     }
 
