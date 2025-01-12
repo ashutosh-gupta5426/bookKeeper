@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 
@@ -24,6 +25,7 @@ class BookAdapter(private val context: Context, private var books: List<Book>) :
         val bookTitle: TextView = itemView.findViewById(R.id.bookTitle)
         val bookAuthor: TextView = itemView.findViewById(R.id.bookAuthor)
         val bookPublishedDate: TextView = itemView.findViewById(R.id.bookPublished)
+        val bookSummary: TextView = itemView.findViewById(R.id.bookSummary)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
@@ -36,15 +38,13 @@ class BookAdapter(private val context: Context, private var books: List<Book>) :
         holder.bookTitle.text = book.bookName
         holder.bookAuthor.text = book.author
         holder.bookPublishedDate.text = book.publicationYear.toString()
-        // Load the book cover image from the URI string
+        holder.bookSummary.text = book.summary
         loadImageFromUri(book.image, holder.bookCover)
 
         // Serialize the book object to JSON and pass it to the details activity
         holder.itemView.setOnClickListener {
-            val gson = Gson()
-            val bookJson = gson.toJson(book)
             val intent = Intent(context, BookDetailsActivity::class.java).apply {
-                putExtra("BOOK_JSON", bookJson)
+                putExtra("bookId", book.id)
             }
             context.startActivity(intent)
         }

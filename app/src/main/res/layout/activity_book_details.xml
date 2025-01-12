@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -10,8 +10,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp">
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        tools:ignore="ExtraText">
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -20,20 +21,51 @@
             android:src="@drawable/back_arrow"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />/
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Book Keeper"
+            android:id="@+id/bookKeeper"
+            app:layout_constraintLeft_toRightOf="@+id/bookDetailsBackBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/bookDetailsBackBtn"
+            app:layout_constraintTop_toTopOf="@+id/bookDetailsBackBtn"
+            app:layout_constraintRight_toLeftOf="@+id/editDetailsBtn"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textColor="#2A55BB"
+            tools:ignore="HardcodedText" />
 
         <ImageView
-            android:id="@+id/bookCover"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/cat"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/editDetailsBtn"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/edit"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bookDetailsBackBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/bookDetailsBackBtn"
+            tools:ignore="ContentDescription" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/coverImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bookDetailsBackBtn"
-            tools:ignore="ContentDescription,HardcodedText" />
+            app:cardCornerRadius="12dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/bookDetailsBackBtn">
+            <ImageView
+                android:id="@+id/bookCover"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder2"
+                tools:ignore="ContentDescription,HardcodedText" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/bookName"
@@ -45,61 +77,144 @@
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bookCover"
+            app:layout_constraintTop_toBottomOf="@+id/coverImage"
             tools:ignore="HardcodedText" />
 
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bookName"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="Author:"/>
         <TextView
             android:id="@+id/bookAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:text="Author"
+            android:text="AuthorName"
             android:textSize="16sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bookName"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/author"
+            app:layout_constraintLeft_toRightOf="@+id/author"/>
 
+        <TextView
+            android:id="@+id/publicationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bookAuthor"
+            android:text="Published By:"/>
         <TextView
             android:id="@+id/bookPublishedBy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:text="Published By"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bookAuthor"
-            app:layout_constraintBottom_toBottomOf="@+id/bookAuthor"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/publicationName"
+            app:layout_constraintLeft_toRightOf="@+id/publicationName"
             tools:ignore="HardcodedText" />
 
         <TextView
+            android:id="@+id/genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bookPublishedBy"
+            android:text="Genre:"/>
+        <TextView
             android:id="@+id/bookGenre"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:text="Genre"
-            app:layout_constraintTop_toBottomOf="@+id/bookPublishedBy"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toRightOf="@+id/genre"
+            app:layout_constraintBottom_toBottomOf="@id/genre"
             tools:ignore="HardcodedText" />
 
+        <TextView
+            android:id="@+id/publishedYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/genre"
+            android:text="Published At:"/>
         <TextView
             android:id="@+id/bookPublicationYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:text="Year Published"
-            app:layout_constraintTop_toTopOf="@+id/bookGenre"
-            app:layout_constraintBottom_toBottomOf="@+id/bookGenre"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/publishedYear"
+            app:layout_constraintLeft_toRightOf="@+id/publishedYear"
             tools:ignore="HardcodedText" />
 
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/publishedYear"
+            android:text="Summary:"/>
         <TextView
             android:id="@+id/bookSummary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
             android:text="Summary"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bookGenre"
+            app:layout_constraintTop_toBottomOf="@+id/summary"
             tools:ignore="HardcodedText" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/deleteBookButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FF0000"
+                android:padding="1dp">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:id="@+id/AddButton"
+                    app:cardCornerRadius="12dp"
+                    >
+                    <TextView
+                        android:id="@+id/addButtonText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delete Book"
+                        android:layout_gravity="center"
+                        android:textColor="#F60004"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText" />
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

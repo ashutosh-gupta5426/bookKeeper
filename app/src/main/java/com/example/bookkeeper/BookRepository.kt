@@ -4,14 +4,21 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 
 class BookRepository(context: Context) {
 
     private val dbHelper = DatabaseHelper(context)
 
     // Create
-    fun insertBook(bookName: String, author: String, summary: String, publicationYear: Int, publishedBy: String, genre: String, image: ByteArray): Long {
+    fun insertBook(
+        bookName: String,
+        author: String,
+        summary: String,
+        publicationYear: Int,
+        publishedBy: String,
+        genre: String,
+        image: ByteArray
+    ): Long {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
             put(DatabaseHelper.COLUMN_BOOK_NAME, bookName)
@@ -33,17 +40,21 @@ class BookRepository(context: Context) {
     fun getAllBooks(): List<Book> {
         val bookList = mutableListOf<Book>()
         val db = dbHelper.readableDatabase
-        val cursor: Cursor = db.query(DatabaseHelper.TABLE_BOOKS, null, null, null, null, null, null)
+        val cursor: Cursor =
+            db.query(DatabaseHelper.TABLE_BOOKS, null, null, null, null, null, null)
 
         if (cursor.moveToFirst()) {
             do {
                 val book = Book().apply {
                     id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID))
-                    bookName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_BOOK_NAME))
+                    bookName =
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_BOOK_NAME))
                     author = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_AUTHOR))
                     summary = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_SUMMARY))
-                    publicationYear = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_PUBLICATION_YEAR))
-                    publishedBy = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PUBLISHED_BY))
+                    publicationYear =
+                        cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_PUBLICATION_YEAR))
+                    publishedBy =
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PUBLISHED_BY))
                     genre = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_GENRE))
                     image = cursor.getBlob(cursor.getColumnIndex(DatabaseHelper.COLUMN_IMAGE))
                 }
@@ -56,7 +67,16 @@ class BookRepository(context: Context) {
     }
 
     // Update
-    fun updateBook(id: Int, bookName: String, author: String, summary: String, publicationYear: Int, publishedBy: String, genre: String, image: ByteArray): Int {
+    fun updateBook(
+        id: Int,
+        bookName: String,
+        author: String,
+        summary: String,
+        publicationYear: Int,
+        publishedBy: String,
+        genre: String,
+        image: ByteArray
+    ): Int {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
             put(DatabaseHelper.COLUMN_BOOK_NAME, bookName)
@@ -68,7 +88,12 @@ class BookRepository(context: Context) {
             put(DatabaseHelper.COLUMN_IMAGE, image)
         }
 
-        val rowsAffected = db.update(DatabaseHelper.TABLE_BOOKS, values, "${DatabaseHelper.COLUMN_ID} = ?", arrayOf(id.toString()))
+        val rowsAffected = db.update(
+            DatabaseHelper.TABLE_BOOKS,
+            values,
+            "${DatabaseHelper.COLUMN_ID} = ?",
+            arrayOf(id.toString())
+        )
         db.close()
         return rowsAffected
     }
@@ -76,7 +101,11 @@ class BookRepository(context: Context) {
     // Delete
     fun deleteBook(id: Int) {
         val db = dbHelper.writableDatabase
-        db.delete(DatabaseHelper.TABLE_BOOKS, "${DatabaseHelper.COLUMN_ID} = ?", arrayOf(id.toString()))
+        db.delete(
+            DatabaseHelper.TABLE_BOOKS,
+            "${DatabaseHelper.COLUMN_ID} = ?",
+            arrayOf(id.toString())
+        )
         db.close()
     }
 }
